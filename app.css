@@ -23,7 +23,7 @@
   right: 20px;
   width: 500px;
   height: 300px;
-  border: solid #333 2px
+  border: solid #D32F2F 2px
 }
 
 .toolbox {
@@ -32,10 +32,14 @@
 
 .btn {
   padding: 2px 6px;
-  background-color: orange;
-  border: solid 1px #C78B1D;
+  background-color: #D32F2F;
+  border: solid 1px #D32F2F;
   border-radius: 2px;
   color: black;
+}
+
+a.btn {
+  color: white;
 }
 
 .leaflet-control-attribution {
