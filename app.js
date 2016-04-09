@@ -70,15 +70,18 @@ function updateHash() {
 function parseHash() {
   var hash = location.hash;
   var matches = hash.match(/^#master\/(\d+)\[([0-9.-]+),([0-9.-]+)\]\/mini\/(\d+)\[([0-9.-]+),([0-9.-]+)\]$/)
-  var masterZoom = matches[1];
-  var masterLng  = matches[2];
-  var masterLat  = matches[3];
-  masterMap.setView(L.latLng(masterLat, masterLng), masterZoom, {animate: false});
 
-  var miniZoom = matches[4];
-  var miniLng  = matches[5];
-  var miniLat  = matches[6];
-  miniMap.setView(L.latLng(miniLat, miniLng), miniZoom, {animate: false});
+  if(matches) {
+    var masterZoom = matches[1];
+    var masterLng  = matches[2];
+    var masterLat  = matches[3];
+    masterMap.setView(L.latLng(masterLat, masterLng), masterZoom, {animate: false});
+
+    var miniZoom = matches[4];
+    var miniLng  = matches[5];
+    var miniLat  = matches[6];
+    miniMap.setView(L.latLng(miniLat, miniLng), miniZoom, {animate: false});
+  }
 }
 
 masterMap.on("move", updateHash);
