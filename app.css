@@ -1,0 +1,48 @@
+.main {
+  position: relative;
+  overflow: hidden;
+  background-color: blue;
+  width: 1000px;
+  height: 680px;
+  border: solid 2px black;
+}
+
+.outer {
+  background-color: #eee;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.inner {
+  background-color: #ccc;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 500px;
+  height: 300px;
+  border: solid #333 2px
+}
+
+.toolbox {
+  margin-top: 8px;
+}
+
+.btn {
+  padding: 2px 6px;
+  background-color: orange;
+  border: solid 1px #C78B1D;
+  border-radius: 2px;
+  color: black;
+}
+
+.leaflet-control-attribution {
+  font-size: larger !important;
+  background-color: white !important;
+}
+
+.leaflet-control-attribution a {
+  color: black !important;
+}
