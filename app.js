@@ -30,11 +30,43 @@ var viewRect = L
   .addTo(masterMap);
 
 function setViewRect() {
-  viewRect.setBounds(miniMap.getBounds())
+  var bounds = miniMap.getBounds();
+  viewRect.setBounds(bounds)
+
+  var point = masterMap.project(bounds._southWest);
+  console.log(bounds, point);
+
+  var bounds = miniMap.getBounds();
+  console.log(bounds);
+
+  var northWest = new L.LatLng(bounds._northEast.lat, bounds._southWest.lng);
+  var southWest = new L.LatLng(bounds._southWest.lat, bounds._northEast.lng);
+
+  var coord1 = masterMap._latLngToNewLayerPoint(northWest, masterMap.getZoom(), masterMap.getCenter());
+
+  var coord1 = masterMap.layerPointToContainerPoint(masterMap.latLngToLayerPoint(northWest));
+  var coord2 = masterMap.layerPointToContainerPoint(masterMap.latLngToLayerPoint(southWest));
+  console.log(coord2);
+
+  d3.select(".line1")
+    .attr("x1", 480)
+    .attr("y1", 20)
+    .attr("x2", coord1.x)
+    .attr("y2", coord1.y)
+    .attr("stroke", "black");
+
+  d3.select(".line2")
+    .attr("x1", 980)
+    .attr("y1", 320)
+    .attr("x2", coord2.x)
+    .attr("y2", coord2.y)
+    .attr("stroke", "black");
+
 }
 
 setViewRect();
 miniMap.on("move", setViewRect);
+masterMap.on("move", setViewRect);
 
 var marker = new L
   .marker([51.505, -0.09], {
@@ -82,6 +114,33 @@ function parseHash() {
     var miniLat  = matches[6];
     miniMap.setView(L.latLng(miniLat, miniLng), miniZoom, {animate: false});
   }
+}
+
+var svg = d3.select(".outer").append("svg")
+  .attr("width", 1000)
+  .attr("height", 680);
+
+console.log(svg)
+
+var line1 = svg
+  .append("line")
+  .attr("class", "line1")
+  .attr("x1", 5)
+  .attr("y1", 5)
+  .attr("x2", 50)
+  .attr("y2", 50)
+  .attr("stroke", "black");
+
+var line2 = svg
+  .append("line")
+  .attr("class", "line2")
+  .attr("x1", 5)
+  .attr("y1", 5)
+  .attr("x2", 50)
+  .attr("y2", 50)
+  .attr("stroke", "black")
+
+function go() {
 }
 
 masterMap.on("move", updateHash);

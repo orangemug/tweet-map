@@ -5,6 +5,7 @@
   width: 1000px;
   height: 680px;
   border: solid 2px black;
+  float: left;
 }
 
 .outer {
@@ -14,6 +15,7 @@
   left: 0;
   right: 0;
   bottom: 0;
+  overflow: hidden;
 }
 
 .inner {
@@ -23,11 +25,13 @@
   right: 20px;
   width: 500px;
   height: 300px;
-  border: solid #D32F2F 2px
+  border: solid #D32F2F 2px;
+  z-index: 100;
 }
 
 .toolbox {
-  margin-top: 8px;
+  padding: 8px;
+  float: left;
 }
 
 .btn {
@@ -49,4 +53,29 @@ a.btn {
 
 .leaflet-control-attribution a {
   color: black !important;
+}
+
+.marker {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+}
+
+svg {
+  pointer-events: none;
+  position: absolute;
+  z-index: 99;
+}
+
+.line1 {
+  stroke-width: 3px;
+  stroke: #D32F2F;
+  opacity: 0.2;
+}
+
+.line2 {
+  stroke-width: 3px;
+  stroke: #D32F2F;
+  opacity: 0.2;
 }
