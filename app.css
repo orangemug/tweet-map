@@ -68,14 +68,12 @@ svg {
   z-index: 99;
 }
 
-.line1 {
+.line {
   stroke-width: 3px;
   stroke: #D32F2F;
   opacity: 0.2;
 }
 
-.line2 {
-  stroke-width: 3px;
-  stroke: #D32F2F;
-  opacity: 0.2;
+.line[hide="true"] {
+  display: none;
 }

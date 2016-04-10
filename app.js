@@ -34,32 +34,95 @@ function setViewRect() {
   viewRect.setBounds(bounds)
 
   var point = masterMap.project(bounds._southWest);
-  console.log(bounds, point);
 
   var bounds = miniMap.getBounds();
-  console.log(bounds);
 
   var northWest = new L.LatLng(bounds._northEast.lat, bounds._southWest.lng);
   var southWest = new L.LatLng(bounds._southWest.lat, bounds._northEast.lng);
 
-  var coord1 = masterMap._latLngToNewLayerPoint(northWest, masterMap.getZoom(), masterMap.getCenter());
-
   var coord1 = masterMap.layerPointToContainerPoint(masterMap.latLngToLayerPoint(northWest));
   var coord2 = masterMap.layerPointToContainerPoint(masterMap.latLngToLayerPoint(southWest));
-  console.log(coord2);
+  var coord3 = masterMap.layerPointToContainerPoint(masterMap.latLngToLayerPoint(bounds._southWest));
+  var coord4 = masterMap.layerPointToContainerPoint(masterMap.latLngToLayerPoint(bounds._northEast));
 
+  var innerEl = document.querySelector(".inner");
+  var outer = document.querySelector(".outer").getBoundingClientRect();
+  var inner = document.querySelector(".inner").getBoundingClientRect();
+  var borderWidth = parseInt(window.getComputedStyle(innerEl).borderWidth) / 2;
+
+  var innerBounds = {
+    top:    inner.top    - outer.top  + borderWidth,
+    left:   inner.left   - outer.left + borderWidth,
+    bottom: inner.bottom - outer.top  - borderWidth,
+    right:  inner.right  - outer.left - borderWidth
+  };
+
+  coord1.hide = true;
+  if(
+       (coord1.y > innerBounds.top && coord1.x < innerBounds.left)
+    || (coord1.y < innerBounds.top && coord1.x > innerBounds.left)
+  ) {
+    coord1.hide = false;
+  }
+
+  // Top/left
   d3.select(".line1")
-    .attr("x1", 480)
-    .attr("y1", 20)
+    .attr("hide", coord1.hide)
+    .attr("x1",innerBounds.left)
+    .attr("y1", innerBounds.top)
     .attr("x2", coord1.x)
     .attr("y2", coord1.y)
     .attr("stroke", "black");
 
+  coord2.hide = true;
+  if(
+       (coord2.y > innerBounds.bottom && coord2.x < innerBounds.right)
+    || (coord2.y < innerBounds.bottom && coord2.x > innerBounds.right)
+  ) {
+    coord2.hide = false;
+  }
+
+  // Bottom/right
   d3.select(".line2")
-    .attr("x1", 980)
-    .attr("y1", 320)
+    .attr("hide", coord2.hide)
+    .attr("x1", innerBounds.right)
+    .attr("y1", innerBounds.bottom)
     .attr("x2", coord2.x)
     .attr("y2", coord2.y)
+    .attr("stroke", "black");
+
+  coord3.hide = true;
+  if(
+       (coord3.y > innerBounds.bottom && coord3.x > innerBounds.left)
+    || (coord3.y < innerBounds.bottom && coord3.x < innerBounds.left)
+  ) {
+    coord3.hide = false;
+  }
+
+  // Bottom/left
+  d3.select(".line3")
+    .attr("hide", coord3.hide)
+    .attr("x1", innerBounds.left)
+    .attr("y1", innerBounds.bottom)
+    .attr("x2", coord3.x)
+    .attr("y2", coord3.y)
+    .attr("stroke", "black");
+
+  coord4.hide = true;
+  if(
+       (coord4.y > innerBounds.top && coord4.x > innerBounds.right)
+    || (coord4.y < innerBounds.top && coord4.x < innerBounds.right)
+  ) {
+    coord4.hide = false;
+  }
+
+  // Top/right
+  d3.select(".line4")
+    .attr("hide", coord4.hide)
+    .attr("x1", innerBounds.right)
+    .attr("y1", innerBounds.top)
+    .attr("x2", coord4.x)
+    .attr("y2", coord4.y)
     .attr("stroke", "black");
 
 }
@@ -120,20 +183,36 @@ var svg = d3.select(".outer").append("svg")
   .attr("width", 1000)
   .attr("height", 680);
 
-console.log(svg)
-
 var line1 = svg
   .append("line")
-  .attr("class", "line1")
+  .attr("class", "line line1")
   .attr("x1", 5)
   .attr("y1", 5)
   .attr("x2", 50)
   .attr("y2", 50)
-  .attr("stroke", "black");
+  .attr("stroke", "black")
 
 var line2 = svg
   .append("line")
-  .attr("class", "line2")
+  .attr("class", "line line2")
+  .attr("x1", 5)
+  .attr("y1", 5)
+  .attr("x2", 50)
+  .attr("y2", 50)
+  .attr("stroke", "black")
+
+var line3 = svg
+  .append("line")
+  .attr("class", "line line3")
+  .attr("x1", 5)
+  .attr("y1", 5)
+  .attr("x2", 50)
+  .attr("y2", 50)
+  .attr("stroke", "black")
+
+var line4 = svg
+  .append("line")
+  .attr("class", "line line4")
   .attr("x1", 5)
   .attr("y1", 5)
   .attr("x2", 50)
