@@ -21,12 +21,42 @@
 .inner {
   background-color: #ccc;
   position: absolute;
-  top: 20px;
-  right: 20px;
   width: 500px;
   height: 300px;
   border: solid #D32F2F 2px;
   z-index: 100;
+}
+
+.main[data-position="top-right"] .inner {
+  top: 20px;
+  right: 20px;
+}
+
+.main[data-position="top-left"] .inner {
+  top: 20px;
+  left: 20px;
+}
+
+.main[data-position="bottom-right"] .inner {
+  bottom: 20px;
+  right: 20px;
+}
+
+.main[data-position="bottom-left"] .inner {
+  bottom: 20px;
+  left: 20px;
+}
+
+.main[data-position="top-right"] .attribution,
+.main[data-position="top-left"] .attribution {
+  bottom: 0;
+  right: 0;
+}
+
+.main[data-position="bottom-left"] .attribution,
+.main[data-position="bottom-right"] .attribution {
+  top: 0;
+  right: 0;
 }
 
 .toolbox {
@@ -44,15 +74,6 @@
 
 a.btn {
   color: white;
-}
-
-.leaflet-control-attribution {
-  font-size: larger !important;
-  background-color: white !important;
-}
-
-.leaflet-control-attribution a {
-  color: black !important;
 }
 
 .marker {
@@ -76,4 +97,62 @@ svg {
 
 .line[hide="true"] {
   display: none;
+}
+
+.position {
+  background-color: #eee;
+  border-color: #333 solid 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.position__padder {
+  padding-top: 68%;
+}
+
+.position__marker {
+  display: block;
+  border: solid 1px red;
+  width: 40%;
+  position: absolute;
+}
+
+.position__marker-padder {
+  padding-top: 68%;
+}
+
+.position__marker[data-position="top-left"] {
+  top: 4px;
+  left: 4px;
+}
+
+.position__marker[data-position="top-right"] {
+  top: 4px;
+  right: 4px;
+}
+
+.position__marker[data-position="bottom-left"] {
+  bottom: 4px;
+  left: 4px;
+}
+
+.position__marker[data-position="bottom-right"] {
+  bottom: 4px;
+  right: 4px;
+}
+
+.geocode.working {
+  background-color: yellow;
+}
+
+.attribution {
+  position: absolute;
+  /* top: 0; */
+  /* left: 0; */
+  background-color: white;
+  padding: 2px 6px;
+}
+
+a {
+  color: inherit;
 }

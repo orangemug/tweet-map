@@ -1,13 +1,15 @@
 var masterMap = L
   .map(document.querySelector('.outer'), {
-    zoomControl: false
+    zoomControl: false,
+    // Because we have it elsewhere
+    attributionControl: false,
   })
   .setView([51.505, -0.09], 13);
 
 var miniMap = L
   .map(document.querySelector('.inner'), {
     zoomControl: false,
-    // Because we have it on the outer map
+    // Because we have it elsewhere
     attributionControl: false,
   })
   .setView([51.505, -0.09], 13);
@@ -226,3 +228,61 @@ masterMap.on("move", updateHash);
 miniMap.on("move", updateHash);
 
 parseHash();
+
+function rePosition(el, e) {
+  document.querySelector(".main").setAttribute("data-position", el.getAttribute("data-position"));
+  setViewRect();
+}
+
+var els = document.querySelectorAll(".position__marker");
+els = Array.prototype.slice.call(els);
+els.forEach(function(el) {
+  el.addEventListener("click", rePosition.bind(this, el));
+});
+
+
+bindZoom(document.querySelector(".mini-map-zoom"), miniMap)
+bindZoom(document.querySelector(".master-map-zoom"), masterMap)
+
+function bindZoom(el, map) {
+  el.setAttribute("min", map.getMinZoom())
+  el.setAttribute("max", map.getMaxZoom())
+  el.addEventListener("change", function() {
+    map.setZoom(el.value)
+  });
+  map.on("zoomend", setZoom);
+  function setZoom() {
+    el.value = map.getZoom()
+  }
+  setZoom();
+}
+
+
+var geocodeFormEl = document.querySelector(".geocode-form");
+var geocodeEl = document.querySelector(".geocode");
+
+function geocode(query) {
+  geocodeEl.setAttribute("disabled", true);
+  geocodeEl.classList.add("working");
+
+  fetch('http://nominatim.openstreetmap.org/search?format=json&q='+query)
+    .then(function(response) {
+      return response.json().then(function(data) {
+        var topMatch = data[0];
+        miniMap.setView(new L.LatLng(topMatch.lat, topMatch.lon));
+      })
+    })
+    .catch(function(err) {
+      alert(err)
+    })
+    .then(function() {
+      geocodeEl.setAttribute("disabled", false);
+      geocodeEl.classList.remove("working");
+    });
+}
+
+geocodeFormEl.addEventListener("submit", function(e) {
+  console.log("submit");
+  geocode(geocodeEl.value);
+  e.preventDefault();
+})
