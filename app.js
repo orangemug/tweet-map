@@ -1,3 +1,5 @@
+
+
 var masterMap = L
   .map(document.querySelector('.outer'), {
     zoomControl: false,
@@ -163,7 +165,7 @@ function getPos(map) {
 var ignoreHashChange;
 
 function updateHash() {
-  location.hash = "master/"+getPos(masterMap)+"/mini/"+getPos(miniMap)
+  location.hash = "master/"+getPos(masterMap)+"/mini/"+position+"/"+getPos(miniMap)
   ignoreHashChange = true;
 }
 
@@ -179,7 +181,7 @@ window.addEventListener("hashchange", function() {
 function parseHash() {
   console.log("parseHash")
   var hash = location.hash;
-  var matches = hash.match(/^#master\/(\d+)\[([0-9.-]+),([0-9.-]+)\]\/mini\/(\d+)\[([0-9.-]+),([0-9.-]+)\]$/)
+  var matches = hash.match(/^#master\/(\d+)\[([0-9.-]+),([0-9.-]+)\]\/mini\/(.*)\/(\d+)\[([0-9.-]+),([0-9.-]+)\]$/)
 
   if(matches) {
     var masterZoom = matches[1];
@@ -187,10 +189,19 @@ function parseHash() {
     var masterLat  = matches[3];
     masterMap.setView(L.latLng(masterLat, masterLng), masterZoom, {animate: false});
 
-    var miniZoom = matches[4];
-    var miniLng  = matches[5];
-    var miniLat  = matches[6];
+    position = matches[4];
+    rePosition(position)
+
+    var miniZoom = matches[5];
+    var miniLng  = matches[6];
+    var miniLat  = matches[7];
     miniMap.setView(L.latLng(miniLat, miniLng), miniZoom, {animate: false});
+
+
+    ignoreHashChange = true;
+  }
+  else {
+    console.debug("No match", hash);
   }
 }
 
@@ -243,17 +254,24 @@ miniMap.on("dragend", updateHash);
 masterMap.on("zoomend", updateHash);
 miniMap.on("zoomend", updateHash);
 
-parseHash();
-
-function rePosition(el, e) {
-  document.querySelector(".main").setAttribute("data-position", el.getAttribute("data-position"));
+var mainEl = document.querySelector(".main");
+console.log(mainEl);
+var position;
+function rePosition(newPosition) {
+  position = newPosition;
+  console.log("rePosition", position)
+  mainEl.setAttribute("data-position", position);
   setViewRect();
+  updateHash();
 }
 
 var els = document.querySelectorAll(".position__marker");
 els = Array.prototype.slice.call(els);
 els.forEach(function(el) {
-  el.addEventListener("click", rePosition.bind(this, el));
+  el.addEventListener("click", function(e) {
+    rePosition(el.getAttribute("data-position"));
+    e.preventDefault();
+  });
 });
 
 
@@ -314,3 +332,6 @@ geocodeFormEl.addEventListener("submit", function(e) {
   geocode(geocodeEl.value);
   e.preventDefault();
 })
+
+
+document.addEventListener("DOMContentLoaded", parseHash);
