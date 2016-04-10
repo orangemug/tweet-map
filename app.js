@@ -257,7 +257,7 @@ miniMap.on("zoomend", updateHash);
 
 var mainEl = document.querySelector(".main");
 console.log(mainEl);
-var position;
+var position = "top-right";
 function rePosition(newPosition) {
   position = newPosition;
   console.log("rePosition", position)
