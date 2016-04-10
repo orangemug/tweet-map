@@ -160,11 +160,24 @@ function getPos(map) {
   return zoom+"["+center.lng+","+center.lat+"]"
 }
 
+var ignoreHashChange;
+
 function updateHash() {
   location.hash = "master/"+getPos(masterMap)+"/mini/"+getPos(miniMap)
+  ignoreHashChange = true;
 }
 
+window.addEventListener("hashchange", function() {
+  if(ignoreHashChange) {
+    ignoreHashChange = false;
+    return;
+  }
+
+  parseHash();
+});
+
 function parseHash() {
+  console.log("parseHash")
   var hash = location.hash;
   var matches = hash.match(/^#master\/(\d+)\[([0-9.-]+),([0-9.-]+)\]\/mini\/(\d+)\[([0-9.-]+),([0-9.-]+)\]$/)
 
@@ -224,8 +237,11 @@ var line4 = svg
 function go() {
 }
 
-masterMap.on("move", updateHash);
-miniMap.on("move", updateHash);
+masterMap.on("dragend", updateHash);
+miniMap.on("dragend", updateHash);
+
+masterMap.on("zoomend", updateHash);
+miniMap.on("zoomend", updateHash);
 
 parseHash();
 
@@ -257,6 +273,18 @@ function bindZoom(el, map) {
   setZoom();
 }
 
+function hideSVG() {
+  document.querySelector("svg").classList.add("hide");
+}
+
+function showSVG() {
+  document.querySelector("svg").classList.remove("hide");
+}
+
+// Nicer UI
+masterMap.on("zoomstart", hideSVG);
+masterMap.on("zoomend", showSVG);
+
 
 var geocodeFormEl = document.querySelector(".geocode-form");
 var geocodeEl = document.querySelector(".geocode");
@@ -276,7 +304,7 @@ function geocode(query) {
       alert(err)
     })
     .then(function() {
-      geocodeEl.setAttribute("disabled", false);
+      geocodeEl.removeAttribute("disabled");
       geocodeEl.classList.remove("working");
     });
 }

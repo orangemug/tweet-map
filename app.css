@@ -1,3 +1,8 @@
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-weight: 300;
+}
+
 .main {
   position: relative;
   overflow: hidden;
@@ -70,6 +75,7 @@
   border: solid 1px #D32F2F;
   border-radius: 2px;
   color: black;
+  display: inline-block;
 }
 
 a.btn {
@@ -92,7 +98,7 @@ svg {
 .line {
   stroke-width: 3px;
   stroke: #D32F2F;
-  opacity: 0.2;
+  opacity: 0.3;
 }
 
 .line[hide="true"] {
@@ -147,12 +153,26 @@ svg {
 
 .attribution {
   position: absolute;
-  /* top: 0; */
-  /* left: 0; */
   background-color: white;
-  padding: 2px 6px;
+  padding: 4px 8px;
 }
 
 a {
   color: inherit;
+}
+
+.container {
+  display: flex;
+}
+
+.main {
+  flex: 0 0 1000px;
+}
+
+.toolbox h1:first-child {
+  margin-top: 0;
+}
+
+.hide {
+  display: none;
 }

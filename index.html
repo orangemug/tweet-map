@@ -10,17 +10,49 @@
   <body>
 
 
-    <div class="main">
-      <div class="main__padding"></div>
-      <div class="outer"></div>
-      <div class="inner"></div>
-    </div>
+    <div class="container">
+      <div class="main" data-position="bottom-right">
+        <div class="main__padding"></div>
+        <div class="outer"></div>
+        <div class="inner"></div>
+        <div class="attribution">
+          <a target="_blank" href="http://leafletjs.com/">Leaflet</a> |
+          <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>
+        </div>
+      </div>
 
-    <div class="toolbox">
-      <h2>Marker</h2>
-      <a href="#" class="btn btn-set-center">Re-center marker</a>
-      <h2>Mini map</h2>
-      <h2>Master map</h2>
+      <div class="toolbox">
+        <h1>Toolbox</h1>
+        <p>
+          Alter the map over here...
+        </p>
+        <h2>Mini map</h2>
+        <label>Search</label>
+        <form class="geocode-form">
+          <input class="geocode" />
+        </form>
+        <div class="position">
+          <div class="position__padder"></div>
+          <a class="position__marker" data-position="top-left" href="#">
+            <div class="position__marker-padder"></div>
+          </a>
+          <a class="position__marker" data-position="top-right" href="#">
+            <div class="position__marker-padder"></div>
+          </a>
+          <a class="position__marker" data-position="bottom-left" href="#">
+            <div class="position__marker-padder"></div>
+          </a>
+          <a class="position__marker" data-position="bottom-right" href="#">
+            <div class="position__marker-padder"></div>
+          </a>
+        </div>
+        <label>Zoom</label>
+        <input type="range" class="mini-map-zoom" />
+        <a href="#" class="btn btn-set-center">Re-center marker</a>
+        <h2>Master map</h2>
+        <label>Zoom</label>
+        <input type="range" class="master-map-zoom" />
+      </div>
     </div>
 
     <!-- scripts -->
