@@ -1,5 +1,6 @@
-
-
+/**
+ * NOTE: This is very messy, I'll tidy it at some point...
+ */
 var masterMap = L
   .map(document.querySelector('.outer'), {
     zoomControl: false,
@@ -328,7 +329,6 @@ function geocode(query) {
 }
 
 geocodeFormEl.addEventListener("submit", function(e) {
-  console.log("submit");
   geocode(geocodeEl.value);
   e.preventDefault();
 })
