@@ -64,8 +64,8 @@ function setViewRect() {
 
   coord1.hide = true;
   if(
-       (coord1.y > innerBounds.top && coord1.x < innerBounds.left)
-    || (coord1.y < innerBounds.top && coord1.x > innerBounds.left)
+       (coord1.y >= innerBounds.top && coord1.x <= innerBounds.left)
+    || (coord1.y <= innerBounds.top && coord1.x >= innerBounds.left)
   ) {
     coord1.hide = false;
   }
@@ -81,8 +81,8 @@ function setViewRect() {
 
   coord2.hide = true;
   if(
-       (coord2.y > innerBounds.bottom && coord2.x < innerBounds.right)
-    || (coord2.y < innerBounds.bottom && coord2.x > innerBounds.right)
+       (coord2.y >= innerBounds.bottom && coord2.x <= innerBounds.right)
+    || (coord2.y <= innerBounds.bottom && coord2.x >= innerBounds.right)
   ) {
     coord2.hide = false;
   }
