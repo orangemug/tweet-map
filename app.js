@@ -163,10 +163,15 @@ function getPos(map) {
   return zoom+"["+center.lng+","+center.lat+"]"
 }
 
+function getMarkerPos() {
+  var pos = marker.getLatLng();
+  return "["+pos.lat+","+pos.lng+"]";
+}
+
 var ignoreHashChange;
 
 function updateHash() {
-  location.hash = "master/"+getPos(masterMap)+"/mini/"+position+"/"+getPos(miniMap)
+  location.hash = "master/"+getPos(masterMap)+"/mini/"+position+"/"+getPos(miniMap)+"/marker/"+getMarkerPos()
   ignoreHashChange = true;
 }
 
@@ -182,7 +187,7 @@ window.addEventListener("hashchange", function() {
 function parseHash() {
   console.log("parseHash")
   var hash = location.hash;
-  var matches = hash.match(/^#master\/(\d+)\[([0-9.-]+),([0-9.-]+)\]\/mini\/(.*)\/(\d+)\[([0-9.-]+),([0-9.-]+)\]$/)
+  var matches = hash.match(/^#master\/(\d+)\[([0-9.-]+),([0-9.-]+)\]\/mini\/(.*)\/(\d+)\[([0-9.-]+),([0-9.-]+)\]\/marker\/\[([0-9.-]+),([0-9.-]+)\]$/)
 
   if(matches) {
     var masterZoom = matches[1];
@@ -198,6 +203,9 @@ function parseHash() {
     var miniLat  = matches[7];
     miniMap.setView(L.latLng(miniLat, miniLng), miniZoom, {animate: false});
 
+    var markerLat = matches[8];
+    var markerLng = matches[9];
+    marker.setLatLng(new L.LatLng(markerLat, markerLng));
 
     ignoreHashChange = true;
   }
@@ -254,6 +262,8 @@ miniMap.on("dragend", updateHash);
 
 masterMap.on("zoomend", updateHash);
 miniMap.on("zoomend", updateHash);
+
+marker.on("move", updateHash);
 
 var mainEl = document.querySelector(".main");
 console.log(mainEl);
