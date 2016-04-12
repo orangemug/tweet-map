@@ -282,7 +282,7 @@ bindZoom(document.querySelector(".master-map-zoom"), masterMap)
 function bindZoom(el, map) {
   el.setAttribute("min", map.getMinZoom())
   el.setAttribute("max", map.getMaxZoom())
-  el.addEventListener("change", function() {
+  el.addEventListener("input", function() {
     map.setZoom(el.value)
   });
   map.on("zoomend", setZoom);
